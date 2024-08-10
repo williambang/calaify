@@ -39,3 +39,38 @@ document.getElementById('add-calories').addEventListener('click', () => {
 
 // Initialize progress bar on load
 updateProgress();
+
+// Install prompt logic
+let deferredPrompt;
+const installButton = document.getElementById('install-button');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the mini-infobar from appearing on mobile
+    e.preventDefault();
+    // Stash the event so it can be triggered later.
+    deferredPrompt = e;
+    // Update UI notify the user they can install the PWA
+    installButton.style.display = 'block';
+
+    installButton.addEventListener('click', () => {
+        // Hide the install button
+        installButton.style.display = 'none';
+        // Show the install prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+            } else {
+                console.log('User dismissed the install prompt');
+            }
+            deferredPrompt = null;
+        });
+    });
+});
+
+// Reset the deferredPrompt when the app is installed
+window.addEventListener('appinstalled', () => {
+    deferredPrompt = null;
+    console.log('PWA was installed');
+});
