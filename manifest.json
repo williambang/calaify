@@ -1,7 +1,7 @@
 {
     "name": "Calorie Tracker",
     "short_name": "CalTrack",
-    "start_url": "/index.html",
+    "start_url": "index.html",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#007bff",
