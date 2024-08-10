@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calorie Tracker PWA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="container">
+        <h1>Calorie Tracker</h1>
+
+        <div class="input-section">
+            <label for="daily-goal">Set Daily Goal (calories):</label>
+            <input type="number" id="daily-goal" placeholder="e.g., 3000">
+            <button id="set-goal">Set Goal</button>
+        </div>
+
+        <div class="input-section">
+            <label for="calorie-input">Add Calories Consumed:</label>
+            <input type="number" id="calorie-input" placeholder="e.g., 500">
+            <button id="add-calories">Add</button>
+        </div>
+
+        <h2>Current Daily Calories: <span id="current-calories">0</span></h2>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
