@@ -1,0 +1,18 @@
+{
+
+    "name": "Calify",
+    "short_name": "Calify",
+    "description": "CalorieTracker",
+    "scope": "/calify/",
+    "start_url": "/calify/",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "display": "standalone", 
+    "icons": [
+        {
+          "src": "/calify/img/icon.png",
+          "type": "image/png",
+          "sizes": "700x700"
+        }
+    ]
+  }
