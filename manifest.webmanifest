@@ -2,7 +2,7 @@
   "name": "calify",
   "short_name": "calify",
   "start_url": "/index.html",
-  "scope": "/",
+  "scope": "/calify/",
   "description": "Shows random fox pictures. Hey, at least it isn't cats.",
   "display": "fullscreen",
   "background_color": "#000000",
