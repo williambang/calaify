@@ -1,23 +1,16 @@
-const staticSite = "website"
-const assets = [
-  "/index.html",
-  "/styles.css",
-  "/app.js",
-  // add additional files here
-]
+self.addEventListener('install', (e) => {
+  e.waitUntil(
+    caches.open('fox-store').then((cache) => cache.addAll([
+      '/index.html',
+      '/app.js',
+      '/styles.css',
+    ])),
+  );
+});
 
-self.addEventListener("install", installEvent => {
-  installEvent.waitUntil(
-    caches.open(staticSite).then(cache => {
-      cache.addAll(assets)
-    })
-  )
-})
-
-self.addEventListener("fetch", fetchEvent => {
-  fetchEvent.respondWith(
-    caches.match(fetchEvent.request).then(res => {
-      return res || fetch(fetchEvent.request)
-    })
-  )
-})
+self.addEventListener('fetch', (e) => {
+  console.log(e.request.url);
+  e.respondWith(
+    caches.match(e.request).then((response) => response || fetch(e.request)),
+  );
+});
