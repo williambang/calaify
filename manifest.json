@@ -1,6 +1,6 @@
 {
-  "name": "PWA Name",
-  "short_name": "PWA Name",
+  "name": "calify",
+  "short_name": "calify",
   "start_url": "/index.html",
   "scope": "/",
   "display": "standalone",

@@ -1,8 +1,16 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f4f4f9;
-    text-align: center;
-}
-
+* {
+    background-color: aliceblue;
+    color: black;
+  }
+  
+  div {
+    display: flex;
+    font-size: 2rem;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  marquee {
+    color: green;
+    font-size: 5rem;
+  }
