@@ -1,7 +1,7 @@
 const staticSite = "website"
 const assets = [
   "/index.html",
-  "/main.css",
+  "/styles.css",
   "/app.js",
   // add additional files here
 ]
