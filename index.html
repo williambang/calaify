@@ -7,9 +7,30 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="manifest" href="manifest.webmanifest">
   <script src="app.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
   <title>Calify</title>
 </head>
 <body>
-
+  <header>
+      <h1>Calify</h1>
+      <button id="settings-btn">⚙️</button>
+  </header>
+  <main>
+      <div id="progress-display">
+          <span id="current-calories">1022</span>/<span id="total-calories">3000</span>
+      </div>
+      <div id="progress-bar">
+          <!-- Dynamically filled with boxes in app.js -->
+      </div>
+  </main>
+  <footer>
+      <button class="adjust-button" data-amount="100">+ 100</button>
+      <button class="adjust-button" data-amount="10">+ 10</button>
+      <button class="adjust-button" data-amount="1">+ 1</button>
+      <button class="adjust-button" data-amount="-100">- 100</button>
+      <button class="adjust-button" data-amount="-10">- 10</button>
+      <button class="adjust-button" data-amount="-1">- 1</button>
+  </footer>
 </body>
 </html>
