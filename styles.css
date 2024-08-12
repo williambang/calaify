@@ -20,6 +20,7 @@ body {
     flex-direction: column;
     height: 100%;
     width: 100%;
+    overflow: hidden;
 }
 
 header {
@@ -77,7 +78,7 @@ row {
 
 .adjust-button{
     width: 33.3%;
-    height: 8cm;
+    height: 80px;
     background-color: #000;
     color: #fff;
     font-size: 38px;
