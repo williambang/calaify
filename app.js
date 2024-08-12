@@ -59,37 +59,26 @@ function updateUI() {
   const totalCalories = 3000; // Example daily goal
 
   if (todayEntry) {
-      // Calculate total calories including overflow and deficit from previous day
+      // Calculate deficit or overflow from the previous day
       let previousOverflow = previousEntry ? Math.max(0, previousEntry.calories - totalCalories) : 0;
       let previousDeficit = previousEntry ? Math.min(0, previousEntry.calories - totalCalories) : 0;
       let adjustedCalories = todayEntry.calories + previousOverflow;
-      let adjustedDeficit = previousDeficit;
-      document.getElementById('current-calories').textContent = adjustedCalories;
-      updateProgressBar(adjustedCalories, adjustedDeficit);
+      let displayCalories = todayEntry.calories + previousDeficit;
+      document.getElementById('current-calories').textContent = displayCalories;
+      updateProgressBar(adjustedCalories);
   }
 }
 
-function updateProgressBar(currentCalories, deficit) {
+function updateProgressBar(currentCalories) {
   const progressBar = document.getElementById('progress-bar');
   const totalCalories = 3000; // Example daily goal
   const maxBoxes = 100; // Maximum number of boxes
-
-  // Calculate the number of filled boxes
-  let filledBoxes = Math.min(maxBoxes, Math.round((currentCalories / totalCalories) * maxBoxes));
-  // Calculate the number of red deficit boxes
-  let deficitBoxes = Math.min(maxBoxes, Math.round((Math.abs(deficit) / totalCalories) * maxBoxes));
+  const filledBoxes = Math.min(maxBoxes, Math.round((currentCalories / totalCalories) * maxBoxes));
 
   progressBar.innerHTML = ''; // Clear previous content
 
-  // Add red boxes for the deficit
-  for (let i = 0; i < deficitBoxes; i++) {
-      const box = document.createElement('div');
-      box.className = 'calorie-box red-box';
-      progressBar.appendChild(box);
-  }
-
   // Add black boxes for the positive calories
-  for (let i = 0; i < filledBoxes - deficitBoxes; i++) {
+  for (let i = 0; i < filledBoxes; i++) {
       const box = document.createElement('div');
       box.className = 'calorie-box';
       progressBar.appendChild(box);
