@@ -60,7 +60,7 @@ function updateUI() {
 
   if (todayEntry) {
       // Calculate deficit or overflow from the previous day
-      let previousDeficit = previousEntry ? previousEntry.calories - totalCalories : 0;
+      let previousDeficit = previousEntry ? previousEntry.calories - totalCalories ;
       let adjustedCalories = todayEntry.calories + previousDeficit;
       let displayCalories = adjustedCalories;
       document.getElementById('current-calories').textContent = displayCalories;
