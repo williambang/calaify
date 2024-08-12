@@ -1,7 +1,7 @@
 {
   "name": "calify",
   "short_name": "calify",
-  "start_url": "/index.html",
+  "start_url": "/calify/index.html",
   "scope": "/",
   "description": "Shows random fox pictures. Hey, at least it isn't cats.",
   "display": "fullscreen",
