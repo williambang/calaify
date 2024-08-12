@@ -73,9 +73,13 @@ function updateProgressBar(currentCalories, previousDeficit) {
   const totalCalories = 3000; // Example daily goal
   const maxBoxes = 100; // Maximum number of boxes
 
+  console.log(currentCalories);
+  console.log(previousDeficit);
   // Calculate the number of red boxes for deficit
   let deficit = Math.max(0, Math.abs(previousDeficit) - currentCalories)
+  console.log(deficit);
   let deficitBoxes = Math.round((deficit / totalCalories) * maxBoxes);
+  console.log(deficitBoxes);
 
   // Calculate the number of black boxes for positive calories
   let positiveBoxes = Math.max(0, Math.min(maxBoxes - deficitBoxes, Math.round((currentCalories / totalCalories) * maxBoxes)));
