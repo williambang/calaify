@@ -70,6 +70,11 @@ row {
     width: 100%;
 }
 
+#settings-btn {
+    background-color: #fff;
+    padding: 20px;
+}
+
 .adjust-button{
     width: 33.3%;
     height: 8cm;
