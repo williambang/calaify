@@ -74,22 +74,26 @@ function updateProgressBar(currentCalories, previousDeficit) {
   const maxBoxes = 100; // Maximum number of boxes
 
   // Calculate the number of red boxes for deficit
-  let deficitBoxes = Math.min(maxBoxes, Math.round((Math.abs(previousDeficit) / totalCalories) * maxBoxes));
+  let deficit = Math.abs(previousDeficit);
+  let deficitBoxes = Math.min(maxBoxes, Math.round((deficit / totalCalories) * maxBoxes));
+  let redBoxes = Math.min(deficitBoxes, Math.round((deficit / totalCalories) * maxBoxes));
+
   // Calculate the number of black boxes for positive calories
   let positiveBoxes = Math.max(0, Math.min(maxBoxes, Math.round((currentCalories / totalCalories) * maxBoxes)));
 
   progressBar.innerHTML = ''; // Clear previous content
 
   // Add red boxes for the deficit
-  for (let i = 0; i < deficitBoxes; i++) {
+  for (let i = 0; i < redBoxes; i++) {
       const box = document.createElement('div');
       box.className = 'calorie-box red-box';
       progressBar.appendChild(box);
   }
 
-  // Add black boxes for the positive calories
-  if (currentCalories > 0) {
-      for (let i = 0; i < positiveBoxes; i++) {
+  // Add black boxes for the positive calories only if the deficit is fully covered
+  if (currentCalories > 0 && currentCalories >= Math.abs(previousDeficit)) {
+      let remainingBoxes = Math.min(maxBoxes - redBoxes, positiveBoxes);
+      for (let i = 0; i < remainingBoxes; i++) {
           const box = document.createElement('div');
           box.className = 'calorie-box';
           progressBar.appendChild(box);
