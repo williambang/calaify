@@ -69,7 +69,8 @@ function updateUI() {
 function updateProgressBar(currentCalories) {
   const progressBar = document.getElementById('progress-bar');
   const totalCalories = 3000; // Example daily goal
-  const filledBoxes = Math.round((currentCalories / totalCalories) * 100);
+  const maxBoxes = 100; // Maximum number of boxes
+  const filledBoxes = Math.min(maxBoxes, Math.round((currentCalories / totalCalories) * maxBoxes));
 
   progressBar.innerHTML = ''; // Clear previous content
   for (let i = 0; i < filledBoxes; i++) {
