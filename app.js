@@ -74,8 +74,8 @@ function updateProgressBar(currentCalories, previousDeficit) {
   const maxBoxes = 100; // Maximum number of boxes
 
   // Calculate the number of red boxes for deficit
-  let deficit = Math.abs(previousDeficit);
-  let deficitBoxes = Math.round(((deficit + currentCalories) / totalCalories) * maxBoxes);
+  let deficit = Math.min(0, Math.abs(previousDeficit) - currentCalories)
+  let deficitBoxes = Math.round((deficit / totalCalories) * maxBoxes);
 
   // Calculate the number of black boxes for positive calories
   let positiveBoxes = Math.max(0, Math.min(maxBoxes - deficitBoxes, Math.round((currentCalories / totalCalories) * maxBoxes)));
