@@ -65,20 +65,34 @@ function updateUI() {
       let adjustedCalories = todayEntry.calories + previousOverflow;
       let displayCalories = todayEntry.calories + previousDeficit;
       document.getElementById('current-calories').textContent = displayCalories;
-      updateProgressBar(adjustedCalories);
+      updateProgressBar(adjustedCalories, previousDeficit);
   }
 }
 
-function updateProgressBar(currentCalories) {
+function updateProgressBar(currentCalories, previousDeficit) {
   const progressBar = document.getElementById('progress-bar');
   const totalCalories = 3000; // Example daily goal
   const maxBoxes = 100; // Maximum number of boxes
-  const filledBoxes = Math.min(maxBoxes, Math.round((currentCalories / totalCalories) * maxBoxes));
+
+  // Calculate the number of red boxes for deficit
+  let deficitBoxes = Math.min(maxBoxes, Math.round((Math.abs(previousDeficit) / totalCalories) * maxBoxes));
+  // Calculate the number of black boxes for positive calories
+  let filledBoxes = Math.min(maxBoxes, Math.round((currentCalories / totalCalories) * maxBoxes));
+
+  // Calculate actual black boxes to show after covering the deficit
+  let positiveBoxes = Math.max(0, filledBoxes - deficitBoxes);
 
   progressBar.innerHTML = ''; // Clear previous content
 
+  // Add red boxes for the deficit
+  for (let i = 0; i < deficitBoxes; i++) {
+      const box = document.createElement('div');
+      box.className = 'calorie-box red-box';
+      progressBar.appendChild(box);
+  }
+
   // Add black boxes for the positive calories
-  for (let i = 0; i < filledBoxes; i++) {
+  for (let i = 0; i < positiveBoxes; i++) {
       const box = document.createElement('div');
       box.className = 'calorie-box';
       progressBar.appendChild(box);
