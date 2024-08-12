@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 html {
@@ -9,6 +10,7 @@ html {
     height: 100vh;
     background-color: black;
     justify-content: center;
+    display: flex;
 }
 
 body {
@@ -31,17 +33,25 @@ header {
     font-size: 24px; /* Increased font size for header */
 }
 
+#progress-display {
+    font-size: 24px;
+    text-align: right;
+    margin: 20px;
+    width: 100%;
+}
+
 #progress-bar {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    gap: 5px;
-    height: 0px;
+    gap: 10px;
+    height: 100%;
+    margin: 10px;
     padding-bottom: 100%;
     background-color: #e1e1e1;
 }
 
 #wrapper {
-
+    margin: 20px;
     width: 100%;
     padding-bottom: 100%;
     height: 0px;
