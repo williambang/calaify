@@ -59,6 +59,8 @@ footer {
     display: flex;
     justify-content: space-around;
     margin-top: auto;
+    flex-wrap: wrap;
+    margin: 0px 15px;
 }
 
 row {
@@ -73,6 +75,10 @@ row {
     background-color: #000;
     color: #fff;
     font-size: 38px;
+    padding-right: 20px;
+    padding: 10px;
+    margin: 5px;
+    text-align: center;
 }
 
 .row-b .adjust-button{
