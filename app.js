@@ -42,7 +42,8 @@ function adjustCalories(amount) {
   let todayEntry = dailyData.find(entry => entry.date === currentDate);
 
   if (todayEntry) {
-      todayEntry.calories += amount;
+      // Ensure calories don't drop below 0
+      todayEntry.calories = Math.max(0, todayEntry.calories + amount);
       localStorage.setItem('dailyData', JSON.stringify(dailyData));
       updateUI();
   }
