@@ -32,7 +32,7 @@ function initializeDailyData() {
       let previousEntry = dailyData.find(entry => entry.date === previousDay);
       let overflow = previousEntry ? Math.max(0, previousEntry.calories - totalCalories) : 0;
       let deficit = previousEntry ? Math.min(0, previousEntry.calories - totalCalories) : 0;
-      dailyData.push({ date: currentDate, calories: overflow, deficit });
+      dailyData.push({ date: currentDate, calories: overflow});
       localStorage.setItem('dailyData', JSON.stringify(dailyData));
   }
 }
@@ -60,7 +60,7 @@ function updateUI() {
 
   if (todayEntry) {
       // Calculate deficit or overflow from the previous day
-      let previousDeficit = previousEntry.calories - totalCalories;
+      let previousDeficit = previousEntry ? previousEntry.calories - totalCalories : 0;
       let adjustedCalories = todayEntry.calories + previousDeficit;
       let displayCalories = adjustedCalories;
       document.getElementById('current-calories').textContent = displayCalories;
