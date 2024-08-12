@@ -78,6 +78,10 @@ console.log(currentCalories);
   let deficit = Math.abs(currentCalories);
   let deficitBoxes = Math.round((deficit / totalCalories) * maxBoxes);
 
+  if(currentCalories > 0 ) {
+    deficitBoxes = 0;
+  }
+
   // Calculate the number of black boxes for positive calories
   let positiveBoxes = Math.max(0, Math.min(maxBoxes - deficitBoxes, Math.round((currentCalories / totalCalories) * maxBoxes)));
 
