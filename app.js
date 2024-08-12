@@ -31,7 +31,8 @@ function initializeDailyData() {
       let previousDay = getPreviousDate(currentDate);
       let previousEntry = dailyData.find(entry => entry.date === previousDay);
       let overflow = previousEntry ? Math.max(0, previousEntry.calories - totalCalories) : 0;
-      dailyData.push({ date: currentDate, calories: overflow });
+      let deficit = previousEntry ? Math.min(0, previousEntry.calories - totalCalories) : 0;
+      dailyData.push({ date: currentDate, calories: overflow, deficit });
       localStorage.setItem('dailyData', JSON.stringify(dailyData));
   }
 }
@@ -58,22 +59,37 @@ function updateUI() {
   const totalCalories = 3000; // Example daily goal
 
   if (todayEntry) {
-      // Calculate total calories including overflow from previous day
+      // Calculate total calories including overflow and deficit from previous day
       let previousOverflow = previousEntry ? Math.max(0, previousEntry.calories - totalCalories) : 0;
+      let previousDeficit = previousEntry ? Math.min(0, previousEntry.calories - totalCalories) : 0;
       let adjustedCalories = todayEntry.calories + previousOverflow;
+      let adjustedDeficit = previousDeficit;
       document.getElementById('current-calories').textContent = adjustedCalories;
-      updateProgressBar(adjustedCalories);
+      updateProgressBar(adjustedCalories, adjustedDeficit);
   }
 }
 
-function updateProgressBar(currentCalories) {
+function updateProgressBar(currentCalories, deficit) {
   const progressBar = document.getElementById('progress-bar');
   const totalCalories = 3000; // Example daily goal
   const maxBoxes = 100; // Maximum number of boxes
-  const filledBoxes = Math.min(maxBoxes, Math.round((currentCalories / totalCalories) * maxBoxes));
+
+  // Calculate the number of filled boxes
+  let filledBoxes = Math.min(maxBoxes, Math.round((currentCalories / totalCalories) * maxBoxes));
+  // Calculate the number of red deficit boxes
+  let deficitBoxes = Math.min(maxBoxes, Math.round((Math.abs(deficit) / totalCalories) * maxBoxes));
 
   progressBar.innerHTML = ''; // Clear previous content
-  for (let i = 0; i < filledBoxes; i++) {
+
+  // Add red boxes for the deficit
+  for (let i = 0; i < deficitBoxes; i++) {
+      const box = document.createElement('div');
+      box.className = 'calorie-box red-box';
+      progressBar.appendChild(box);
+  }
+
+  // Add black boxes for the positive calories
+  for (let i = 0; i < filledBoxes - deficitBoxes; i++) {
       const box = document.createElement('div');
       box.className = 'calorie-box';
       progressBar.appendChild(box);
