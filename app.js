@@ -12,15 +12,29 @@ document.addEventListener('DOMContentLoaded', () => {
   const progressBar = document.getElementById('progress-bar');
   const currentDate = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
 
-  // Initialize or update daily data from Local Storage
-  function initializeDailyData() {
-      let dailyData = JSON.parse(localStorage.getItem('dailyData')) || {};
-      if (!dailyData[currentDate]) {
-          dailyData[currentDate] = 0; // Start with 0 calories for new day
-          localStorage.setItem('dailyData', JSON.stringify(dailyData));
-      }
-      return dailyData;
-  }
+  function getPreviousDate(date) {
+    const prevDate = new Date(date);
+    prevDate.setDate(prevDate.getDate() - 1);
+    return prevDate.toISOString().slice(0, 10);
+}
+
+function initializeDailyData() {
+    let dailyData = JSON.parse(localStorage.getItem('dailyData')) || {};
+    const prevDate = getPreviousDate(currentDate);
+    const totalCalories = parseInt(document.getElementById('total-calories').textContent);
+
+    if (!dailyData[currentDate]) {
+        dailyData[currentDate] = 0; // Start with 0 calories for the new day
+    }
+
+    if (dailyData[prevDate] && dailyData[prevDate] > totalCalories) {
+        dailyData[currentDate] = dailyData[prevDate] - totalCalories; // Carry over the excess calories
+    }
+
+    localStorage.setItem('dailyData', JSON.stringify(dailyData));
+    return dailyData;
+}
+
 
   let dailyData = initializeDailyData();
 
@@ -31,23 +45,38 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   adjustButtons.forEach(button => {
-      button.addEventListener('click', () => {
-          const amount = parseInt(button.getAttribute('data-amount'));
-          dailyData[currentDate] = Math.max(0, dailyData[currentDate] + amount); // Prevent negative calories
-          localStorage.setItem('dailyData', JSON.stringify(dailyData)); // Save updated data to Local Storage
-          updateUI();
-      });
-  });
+    button.addEventListener('click', () => {
+        const amount = parseInt(button.getAttribute('data-amount'));
+        const minimumCalories = dailyData[currentDate] - dailyData[getPreviousDate(currentDate)];
+        dailyData[currentDate] = Math.max(minimumCalories, dailyData[currentDate] + amount);
+        localStorage.setItem('dailyData', JSON.stringify(dailyData)); // Save updated data to Local Storage
+        updateUI();
+    });
+});
+
+
 
   function updateProgressBar() {
-      const totalCalories = parseInt(document.getElementById('total-calories').textContent);
-      const filledBoxes = Math.round((dailyData[currentDate] / totalCalories) * 100);
-      progressBar.innerHTML = ''; // Clear previous boxes
-      for (let i = 0; i < filledBoxes; i++) {
-          const box = document.createElement('div');
-          progressBar.appendChild(box);
-      }
-  }
+    const totalCalories = parseInt(document.getElementById('total-calories').textContent);
+    const currentCalories = dailyData[currentDate];
+    const filledBoxes = Math.round((currentCalories / totalCalories) * 100);
+    const overflowBoxes = dailyData[currentDate] < 0 ? 0 : Math.round((dailyData[currentDate] / totalCalories) * 100);
+    
+    progressBar.innerHTML = ''; // Clear previous boxes
+    // First fill in the overflow boxes in green
+    for (let i = 0; i < overflowBoxes; i++) {
+        const box = document.createElement('div');
+        box.style.backgroundColor = 'green';
+        progressBar.appendChild(box);
+    }
+    // Then fill in the normal boxes in black
+    for (let i = overflowBoxes; i < filledBoxes; i++) {
+        const box = document.createElement('div');
+        box.style.backgroundColor = 'black';
+        progressBar.appendChild(box);
+    }
+}
+
 
   updateUI(); // Initial UI update based on today's data
 });
