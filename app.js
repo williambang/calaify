@@ -60,7 +60,7 @@ function updateUI() {
 
   if (todayEntry) {
       // Calculate deficit or overflow from the previous day
-      let previousDeficit = previousEntry ? Math.min(0, previousEntry.calories - totalCalories) : 0;
+      let previousDeficit = previousEntry.calories - totalCalories;
       let adjustedCalories = todayEntry.calories + previousDeficit;
       let displayCalories = adjustedCalories;
       document.getElementById('current-calories').textContent = displayCalories;
@@ -73,7 +73,7 @@ function updateProgressBar(currentCalories, previousDeficit) {
   const totalCalories = 3000; // Example daily goal
   const maxBoxes = 100; // Maximum number of boxes
 
-
+console.log(currentCalories);
   // Calculate the number of red boxes for deficit
   let deficit = Math.abs(currentCalories);
   let deficitBoxes = Math.round((deficit / totalCalories) * maxBoxes);
