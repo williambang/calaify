@@ -25,11 +25,6 @@ header {
     background-color: #e1e1e1;
 }
 
-#progress-bar div {
-    height: 20px;
-    background-color: black;
-}
-
 footer {
     display: flex;
     justify-content: space-around;
@@ -46,6 +41,7 @@ button {
     background-color: black;
     display: inline-block;
     margin: 1px;
+    height: 20px;
 }
 
 .red-box {
