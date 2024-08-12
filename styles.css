@@ -6,8 +6,6 @@
 html {
 
     font-family: 'Bebas Neue', sans-serif;
-    display: flex;
-    flex-direction: column;
     height: 100vh;
     background-color: black;
     justify-content: center;
@@ -19,6 +17,8 @@ body {
     display: flex;
     flex-direction: column;
     height: 100%;
+    width: 100%;
+    margin: 20px;
 }
 
 header {
