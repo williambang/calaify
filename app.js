@@ -17,8 +17,13 @@ function getPreviousDate(date) {
   return prevDate.toISOString().slice(0, 10);
 }
 
+function getDailyData() {
+  let dailyData = JSON.parse(localStorage.getItem('dailyData'));
+  return Array.isArray(dailyData) ? dailyData : [];
+}
+
 function initializeDailyData() {
-  let dailyData = JSON.parse(localStorage.getItem('dailyData')) || [];
+  let dailyData = getDailyData();
   const currentDate = new Date().toISOString().slice(0, 10);
   const totalCalories = 3000; // Example daily goal
 
@@ -32,7 +37,7 @@ function initializeDailyData() {
 }
 
 function adjustCalories(amount) {
-  let dailyData = JSON.parse(localStorage.getItem('dailyData')) || [];
+  let dailyData = getDailyData();
   const currentDate = new Date().toISOString().slice(0, 10);
   let todayEntry = dailyData.find(entry => entry.date === currentDate);
 
@@ -45,7 +50,7 @@ function adjustCalories(amount) {
 
 function updateUI() {
   const currentDate = new Date().toISOString().slice(0, 10);
-  let dailyData = JSON.parse(localStorage.getItem('dailyData')) || [];
+  let dailyData = getDailyData();
   let todayEntry = dailyData.find(entry => entry.date === currentDate);
 
   if (todayEntry) {
