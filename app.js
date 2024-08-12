@@ -52,10 +52,16 @@ function updateUI() {
   const currentDate = new Date().toISOString().slice(0, 10);
   let dailyData = getDailyData();
   let todayEntry = dailyData.find(entry => entry.date === currentDate);
+  let previousDay = getPreviousDate(currentDate);
+  let previousEntry = dailyData.find(entry => entry.date === previousDay);
+  const totalCalories = 3000; // Example daily goal
 
   if (todayEntry) {
-      document.getElementById('current-calories').textContent = todayEntry.calories;
-      updateProgressBar(todayEntry.calories);
+      // Calculate total calories including overflow from previous day
+      let previousOverflow = previousEntry ? Math.max(0, previousEntry.calories - totalCalories) : 0;
+      let adjustedCalories = todayEntry.calories + previousOverflow;
+      document.getElementById('current-calories').textContent = adjustedCalories;
+      updateProgressBar(adjustedCalories);
   }
 }
 
