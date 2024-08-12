@@ -1,7 +1,7 @@
 // Check if Service Worker is supported
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/calify/sw.js').then(() => {
-      console.log('Service Worker Registered');
+    console.log('Service Worker Registered');
   });
 }
 
@@ -22,18 +22,19 @@ function getDailyData() {
   return Array.isArray(dailyData) ? dailyData : [];
 }
 
+let totalCalories = parseInt(localStorage.getItem('totalCalories'), 10) || 3000; // Example daily goal
+
 function initializeDailyData() {
   let dailyData = getDailyData();
   const currentDate = new Date().toISOString().slice(0, 10);
-  const totalCalories = 3000; // Example daily goal
 
   if (!dailyData.some(entry => entry.date === currentDate)) {
-      let previousDay = getPreviousDate(currentDate);
-      let previousEntry = dailyData.find(entry => entry.date === previousDay);
-      let overflow = previousEntry ? Math.max(0, previousEntry.calories - totalCalories) : 0;
-      let deficit = previousEntry ? Math.min(0, previousEntry.calories - totalCalories) : 0;
-      dailyData.push({ date: currentDate, calories: overflow});
-      localStorage.setItem('dailyData', JSON.stringify(dailyData));
+    let previousDay = getPreviousDate(currentDate);
+    let previousEntry = dailyData.find(entry => entry.date === previousDay);
+    let overflow = previousEntry ? Math.max(0, previousEntry.calories - totalCalories) : 0;
+    let deficit = previousEntry ? Math.min(0, previousEntry.calories - totalCalories) : 0;
+    dailyData.push({ date: currentDate, calories: overflow });
+    localStorage.setItem('dailyData', JSON.stringify(dailyData));
   }
 }
 
@@ -43,10 +44,10 @@ function adjustCalories(amount) {
   let todayEntry = dailyData.find(entry => entry.date === currentDate);
 
   if (todayEntry) {
-      // Ensure calories don't drop below 0
-      todayEntry.calories = Math.max(0, todayEntry.calories + amount);
-      localStorage.setItem('dailyData', JSON.stringify(dailyData));
-      updateUI();
+    // Ensure calories don't drop below 0
+    todayEntry.calories = Math.max(0, todayEntry.calories + amount);
+    localStorage.setItem('dailyData', JSON.stringify(dailyData));
+    updateUI();
   }
 }
 
@@ -56,29 +57,26 @@ function updateUI() {
   let todayEntry = dailyData.find(entry => entry.date === currentDate);
   let previousDay = getPreviousDate(currentDate);
   let previousEntry = dailyData.find(entry => entry.date === previousDay);
-  const totalCalories = 3000; // Example daily goal
 
   if (todayEntry) {
-      // Calculate deficit or overflow from the previous day
-      let previousDeficit = previousEntry ? previousEntry.calories - totalCalories : 0;
-      let adjustedCalories = todayEntry.calories + previousDeficit;
-      let displayCalories = adjustedCalories;
-      document.getElementById('current-calories').textContent = displayCalories;
-      updateProgressBar(adjustedCalories, previousDeficit);
+    // Calculate deficit or overflow from the previous day
+    let previousDeficit = previousEntry ? previousEntry.calories - totalCalories : 0;
+    let adjustedCalories = todayEntry.calories + previousDeficit;
+    let displayCalories = adjustedCalories;
+    document.getElementById('current-calories').textContent = displayCalories;
+    updateProgressBar(adjustedCalories, previousDeficit);
   }
 }
 
 function updateProgressBar(currentCalories, previousDeficit) {
   const progressBar = document.getElementById('progress-bar');
-  const totalCalories = 3000; // Example daily goal
   const maxBoxes = 100; // Maximum number of boxes
 
-console.log(currentCalories);
   // Calculate the number of red boxes for deficit
   let deficit = Math.abs(currentCalories);
   let deficitBoxes = Math.round((deficit / totalCalories) * maxBoxes);
 
-  if(currentCalories > 0 ) {
+  if (currentCalories > 0) {
     deficitBoxes = 0;
   }
 
@@ -90,28 +88,50 @@ console.log(currentCalories);
   if (currentCalories < 0) {
     // Add red boxes for the deficit
     for (let i = 0; i < deficitBoxes; i++) {
-        const box = document.createElement('div');
-        box.className = 'calorie-box red-box';
-        progressBar.appendChild(box);
+      const box = document.createElement('div');
+      box.className = 'calorie-box red-box';
+      progressBar.appendChild(box);
     }
   }
 
   // Add black boxes for the positive calories only if the deficit is fully covered
   if (currentCalories > 0) {
-      let remainingBoxes = Math.max(0, maxBoxes - deficitBoxes);
-      for (let i = 0; i < positiveBoxes; i++) {
-          const box = document.createElement('div');
-          box.className = 'calorie-box';
-          progressBar.appendChild(box);
-      }
+    let remainingBoxes = Math.max(0, maxBoxes - deficitBoxes);
+    for (let i = 0; i < positiveBoxes; i++) {
+      const box = document.createElement('div');
+      box.className = 'calorie-box';
+      progressBar.appendChild(box);
+    }
   }
 }
 
 function setupEventHandlers() {
   document.querySelectorAll('.adjust-button').forEach(button => {
-      button.addEventListener('click', function() {
-          const amount = parseInt(this.getAttribute('data-amount'), 10);
-          adjustCalories(amount);
-      });
+    button.addEventListener('click', function () {
+      const amount = parseInt(this.getAttribute('data-amount'), 10);
+      adjustCalories(amount);
+    });
+  });
+
+  // Settings overlay
+  const settingsBtn = document.getElementById('settings-btn');
+  const settingsOverlay = document.getElementById('settings-overlay');
+  const closeOverlay = document.getElementById('close-overlay');
+  const saveSettingsBtn = document.getElementById('save-settings');
+  const dailyGoalInput = document.getElementById('daily-goal');
+
+  settingsBtn.addEventListener('click', () => {
+    settingsOverlay.classList.remove('hidden');
+  });
+
+  closeOverlay.addEventListener('click', () => {
+    settingsOverlay.classList.add('hidden');
+  });
+
+  saveSettingsBtn.addEventListener('click', () => {
+    totalCalories = parseInt(dailyGoalInput.value, 10);
+    localStorage.setItem('totalCalories', totalCalories);
+    settingsOverlay.classList.add('hidden');
+    updateUI(); // Update the UI to reflect the new total calorie goal
   });
 }
