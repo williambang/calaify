@@ -118,7 +118,7 @@ button {
     height: 100%;
     background-color: #fff;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
     z-index: 1000;
   }
@@ -134,7 +134,7 @@ button {
   
   #close-overlay {
     position: absolute;
-    top: 20px;
+    top: 0px;
     right: 20px;
     font-size: 64px;
     cursor: pointer;
