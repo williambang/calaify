@@ -73,7 +73,6 @@ row {
 
 #settings-btn {
     background-color: #fff;
-    padding: 20px;
     border: none;
 }
 
@@ -155,4 +154,19 @@ button {
   label[for=daily-goal] {
     font-size: 28px;
     text-align: center;
+  }
+
+  .content {
+
+    margin-top: 30px;
+
+  }
+
+  #save-settings {
+    width: 100%;
+    border: none;
+    background: #000;
+    color: #fff;
+    font-size: 32px;
+    padding: 10px;
   }
