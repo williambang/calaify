@@ -131,6 +131,7 @@ function setupEventHandlers() {
   saveSettingsBtn.addEventListener('click', () => {
     totalCalories = parseInt(dailyGoalInput.value, 10);
     localStorage.setItem('totalCalories', totalCalories);
+    document.getElementById('total-calories').textContent = totalCalories;
     settingsOverlay.classList.add('hidden');
     updateUI(); // Update the UI to reflect the new total calorie goal
   });
