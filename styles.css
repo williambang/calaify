@@ -118,7 +118,7 @@ button {
     height: 100%;
     background-color: #fff;
     display: flex;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
     z-index: 1000;
   }
@@ -126,7 +126,7 @@ button {
   .overlay-content {
     padding: 20px;
     position: relative;
-    text-align: center;
+    text-align: left;
     width: 100%;
     height: 100%;
     max-width: 800px;
